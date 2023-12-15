@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include<stdlib.h>
-#include <Windows.h>
+//#include <Windows.h>
 #include <stdbool.h>
 //#include <iostream>
 //#include <MMsystem.h>
 //#include <conio.h>
+#include <unistd.h>
 
 
 #define clk 0
