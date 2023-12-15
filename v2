@@ -1,0 +1,167 @@
+#include <stdio.h>
+#include<stdlib.h>
+#include <Windows.h>
+#define clk 2
+#define p1 1
+#define p2 2
+void select_action(int player_number,char choice){
+	switch (choice) 
+	{
+		//shoot
+    	case 'e':
+		case 'E':
+		if (player_number==p1)
+			shoot(p1);
+		if (player_number==p2)
+		    shoot(p2);
+			break;
+		//reload
+        case 'r': 
+		case 'R':
+		if (player_number==p1)
+			counter1=reload_(counter1);
+		if (player_number==p2)
+		    counter2=reload_(counter2);
+			break;
+		//block
+		case 't': 
+		case 'T':
+		if (player_number==p1)
+			block_(p1);
+		if (player_number==p2)
+		    block_(p2);
+			break;
+}
+    
+}
+
+int reload_(int player_counter){
+	if (player_counter <0)
+		return 1;
+	else
+		return ++player_counter;
+}
+
+ void shoot_(int player)
+ {
+ 	if(player == p1)
+ 	if (counter1==0)
+        puts("loski den exei sferes!\n");
+    else if(counter1>0)
+        counter1--;
+        // TODO p2.life--
+ }
+ void block_(){
+ 	 // TODO implement player blocks bullet
+ }
+int main()
+{
+    int counter1=0,counter2=0;
+    char start,shoot='e',reload='r',block='t',input1,input2;
+    char str1[15]; 
+    char str2[15]; 
+//start screen
+        puts("**********007**********\n");
+        puts("Press any key to start\n");
+        scanf(" %c", &start);
+        printf("\e[1;1H\e[2J"); 
+//pre game screen
+        puts("Choose your nicknames!\n");
+        puts("Player 1:(Up to 15 characters)\n");
+        scanf(" %s", str1); 
+        puts("player 2:(Up to 15 characters)\n");
+        scanf(" %s", str2);
+        printf("\e[1;1H\e[2J"); 
+        puts("Get ready!\n");
+//Game starts
+    while(1)
+    {
+    	
+        puts("you have 3 actions:\nShoot[e]       Reload[r]      Block[t]");
+//player 1 choose action
+        printf("\n %s choose wisely!!!",str1);
+        scanf(" %c", &input1);
+    	select_action(p2,input1)
+    if (input1=='r')
+    {
+    	counter1 = reload_(counter1);
+       printf("bravo sfera %d\n",counter1);
+
+    }
+    else if (input1=='e'&&counter1==0)
+       {
+        puts("loski den exei sferes!\n");
+        continue;
+       }
+    else if (input1=='e'&&counter1>0)
+        counter1--;
+    else{ 
+        puts("gamhthikes!\n");
+        } 
+        sleep(clk);
+        printf("\e[1;1H\e[2J");
+//player 2 choose action
+        printf("\n %s choose wisely!!!",str2);
+        scanf(" %c", &input2);
+    if (input2=='r')
+    {
+    	counter2 = reload_(counter2);
+        printf("bravo sfera %d\n",counter2);
+        
+    }
+    else if (input2=='e'&&counter2==0)
+       {
+        puts("loski den exei sferes!\n");
+        continue;
+       }
+    else if (input2=='e'&&counter2>0)
+        counter2--;  
+    else{ 
+        puts("gamhthikes2!\n");
+        }
+		 sleep(clk);
+        printf("\e[1;1H\e[2J");
+    break;    
+    }			//while ends
+//action procces
+    if (input1=='e'&&input2=='e')
+        printf("Psolarmentosan(isopalia)\n");
+    if (input1=='t'&&input2=='t')
+       puts("e ntaj\n");
+    if (input1=='r'&&input2=='r')
+       printf("entaj peirate sfera\n");
+//end
+    
+return 0;
+}
+
+
+//bool reload(){
+//	//return true false
+//}
+
+//
+//	char la;
+//	printf("TI THES NA KANEIS?!?!\n");
+//	printf("epiloges\n calculator:'c'\n dec to hex:'h'\n hex to dec:'d'");
+//	scanf(" %c", &la);
+//	switch (la) {
+//		case 'c':
+//			calc();
+//			break;
+//		case 'C':
+//			calc();
+//			break;
+//
+//		case 'r': 
+//		case 'R':
+//			counter1=reload_(counter1);
+//			break;
+//		case 'h':
+//		case 'H':
+////		case 1 ... 30: needs la int
+//			heex();
+//			break;
+//		default:
+//			printf("gamw to spiti sou");
+//	}
