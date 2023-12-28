@@ -214,9 +214,10 @@ char str2[15];
 		}
 
 		resolve_actions(str1,str2, input1,input2);
-		if (p1_health==0||p2_health==0)
+		if (p1_health==0||p2_health==0){
 			printf("!GAME OVER!");
-				break;
+			break;
+		}
 		else{
 		printf("\nPress any key to continue, r to restart, e to exit. \n");
 		 scanf(" %c",&select_);
