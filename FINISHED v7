@@ -1,0 +1,240 @@
+#include <stdio.h>
+#include<stdlib.h>
+#include <stdbool.h>
+#include <unistd.h>
+
+#define clk 0
+#define clk2 1
+#define p1 1
+#define p2 2
+#define zero 0
+#define life 10
+
+char restart_='r';
+char exit_= 'e';
+char select_;
+int counter1=0,counter2=0,p1_health=life
+,p2_health=life;
+int def_damage=10;
+char start,shoot='e',reload='r',block='t',input1,input2;
+char str1[15];
+char str2[15];
+
+// reload function
+	int reload_(int player_counter) {
+		if (player_counter <0)
+			return 1;
+		else {
+			printf("peires sfera\n");
+			return ++player_counter;
+		}
+	}
+// shoot action
+	bool shoot_(int player) {
+		if(player == p1) {
+			if (counter1<=0) {
+				puts("loski den exei sferes!\n");
+				return false;//shoot failed
+			} else {
+				counter1--;
+				return true;//shoot successful
+			}
+		} else {
+			if (counter2<=0) {
+				puts("loski den exei sferes!\n");
+				return false;//shoot failed
+			} else {
+				counter2--;
+				return true;//shoot successful
+			}
+		}
+	
+}
+//damage function
+	int remaining_health(int health,int damage) {
+		return health-damage;
+	}
+// player action choice
+	bool select_action(int player_number,char choice) {
+		switch (choice) {
+	//shoot
+			case 'e':
+			case 'E':
+				if (player_number==p1)
+					return shoot_(p1);
+				if (player_number==p2)
+					return shoot_(p2);
+				break;
+	//reload
+			case 'r':
+			case 'R':
+				if (player_number==p1)
+					counter1=reload_(counter1);
+				if (player_number==p2)
+					counter2=reload_(counter2);
+				return true;
+				break;
+	//block
+			case 't':
+			case 'T':
+//				if (player_number==p1)
+//					block_(p1);
+//				if (player_number==p2)
+//					block_(p2);
+				return true;
+				break;
+			default:
+				printf("u choose  wrong %c",choice);
+				return false;
+		}
+	
+	}
+//resolve_actions
+	void resolve_actions(char p1_name[] ,char p2_name[] ,char p1_action, char p2_action) {
+		printf("The moment of truth!!\n");
+		sleep(clk2);
+		printf("\nplayer %s chose %c \n", p1_name,p1_action);
+		sleep(clk2);
+		printf("\nplayer %s chose %c \n", p2_name,p2_action);
+		if(p1_action==shoot&&p2_action==shoot) {
+			sleep(clk2);
+			printf("\n	Both players lose health!\n");
+			//both life loss
+			p1_health=remaining_health(p1_health,def_damage);
+			p2_health=remaining_health(p2_health,def_damage);
+			//p1 rem hp
+			printf("\n%s lose health!\n",p1_name);
+			printf("remaining health: %d\n",p1_health);
+			//p2 rem hp
+			printf("\n%s lose health!\n",p2_name);
+			printf("remaining health: %d\n",p2_health);
+			
+		} else if(p1_action==shoot&&p2_action==block)
+			printf("\n	%s blocked the bullet of %s!\n",p2_name,p1_name);
+		else if (p1_action==shoot&&p2_action==reload) {
+			printf("\n%s shot\n",p1_name);
+			sleep(clk2);
+			p2_health=remaining_health(p2_health,def_damage);
+			printf("\n%s lose health!\n",p2_name);
+			printf("remaining health: %d\n",p2_health);
+			sleep(clk2);
+			printf("\n	%s Wins the round!\n",p1_name);
+			sleep(clk2);
+			//life remaing
+		} else if (p1_action==reload&&p2_action==reload){
+			sleep(clk2);
+			printf("\nNothing happens...\n");
+		}
+		else if (p1_action==reload&&p2_action==shoot) {
+			printf("\n%s shot\n",p2_name);
+			sleep(clk2);
+			p1_health=remaining_health(p1_health,def_damage);
+			printf("\n%s lose health!\n",p1_name);
+			printf("remaining health: %d\n",p1_health);
+			sleep(clk2);
+			printf("\n	%s Wins the round!\n",p2_name);
+			sleep(clk2);
+			//life remaing
+		} else if (p1_action==reload&&p2_action==reload){
+			sleep(clk2);
+			printf("\nNothing happens...\n");
+		}
+		else if (p1_action==block&&p2_action==shoot){
+			sleep(clk2);
+			printf("\n	%s blocked the bullet of %s!\n",p1_name,p2_name);
+		}
+		else if (p1_action==block&&p2_action==reload){
+			sleep(clk2);
+			printf("\nNothing happens...\n");
+		}
+		else if (p1_action==block&&p2_action==block){
+			sleep(clk2);
+			printf("\nNothing happens...\n");
+		}
+		else if (p1_action==reload&&p2_action==block){
+			sleep(clk2);
+			printf("\nNothing happens...\n");
+		}
+}
+//nickname function
+	void initialize_game() {
+	
+		puts("Choose your nicknames!\n");
+		printf("Player 1:(Up to 15 characters)\n");
+		scanf(" %s", str1);
+		printf("\e[1;1H\e[2J");
+		printf("player 2:(Up to 15 characters)\n");
+		scanf(" %s", str2);
+		printf("\e[1;1H\e[2J");
+		puts("Get ready!\n");
+		sleep(clk2);
+
+}
+//game start
+	int main() {
+//start screen
+	puts("**********007**********\n");
+	puts("Press enter to start\n");
+	scanf("%[^\n]", &start);
+	printf("\e[1;1H\e[2J");
+//pre game screen
+	initialize_game();
+//Game starts
+	while(1) {
+        
+		while(1) {
+			// loop p1
+			printf("	You have 3 actions:\n");
+			printf("Shoot[e]       Reload[r]      Block[t]\n");
+			printf("Health: %d\nBullets:%d\n",p1_health,counter1);
+			//player 1 choose action
+			printf("	%s choose wisely!!!\n",str1);
+			scanf(" %c", &input1);
+			if (!select_action(p1,input1))
+				continue;
+			sleep(clk);
+			printf("\e[1;1H\e[2J");
+			break;
+
+
+		}
+		while(1) {
+			// loop p2
+			printf("	You have 3 actions:\n");
+			printf("Shoot[e]       Reload[r]      Block[t]\n");
+			printf("Health: %d\nBullets:%d\n",p2_health,counter2);
+			//player 2 choose action
+			printf("	%s choose wisely!!!\n",str2);
+			scanf(" %c", &input2);
+			if (!select_action(p2,input2))
+				continue;
+			sleep(clk);
+			printf("\e[1;1H\e[2J");
+			break;
+		}
+
+		resolve_actions(str1,str2, input1,input2);
+		if (p1_health==0||p2_health==0)
+			printf("!GAME OVER!");
+				break;
+		else{
+		printf("\nPress any key to continue, r to restart, e to exit. \n");
+		 scanf(" %c",&select_);
+		if (select_==restart_)
+			initialize_game();
+		else if (select_==exit_)
+			break;
+			printf("\e[1;1H\e[2J");	
+		}
+	}
+	return 0;
+}
+
+
+/*
+***************UPGRADE***********************
+lvl2 dodge(mporeis na shoot kai dodge mazi)
+lvl2 shoot(tha dw)
+music
+*********************************************
+*/
